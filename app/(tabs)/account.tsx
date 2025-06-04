@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
@@ -8,6 +9,7 @@ export default function AccountScreen() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Load user info
@@ -66,6 +68,14 @@ export default function AccountScreen() {
     }
   };
 
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("user");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "login" }],
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Account Information</Text>
@@ -106,14 +116,34 @@ export default function AccountScreen() {
       <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
         <Text style={styles.buttonText}>Change Password</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#aaa", marginTop: 32 }]}
+        onPress={handleLogout}
+      >
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: "#fff" },
-  title: { fontSize: 22, fontWeight: "bold", color: "#D20A62", marginBottom: 12 },
-  label: { fontWeight: "600", marginBottom: 4 },
+  container: { 
+    flex: 1, 
+    padding: 24, 
+    backgroundColor: "#fff" 
+  },
+  title: { 
+    fontSize: 22, 
+    fontWeight: "bold", 
+    color: "#D20A62", 
+    marginBottom: 12,
+    marginTop: 24
+  },
+  label: { 
+    fontWeight: "600", 
+    marginBottom: 4 
+  },
   input: {
     backgroundColor: "#F5F7FF",
     padding: 14,
@@ -129,5 +159,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  buttonText: { color: "white", fontWeight: "bold" },
+  buttonText: { 
+    color: "white", 
+    fontWeight: "bold" 
+  },
 });

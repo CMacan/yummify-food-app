@@ -1,19 +1,161 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import ProductItem from "../../components/ProductionItem";
 import { useCart } from "../../context/CartContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DATA = [
-  { id: "1", name: "Special Burger", price: 50,  image: require("../../assets/images/burger.png") },
-  { id: "2", name: "Fried Chicken",  price: 99,  image: require("../../assets/images/fried.png") },
-  { id: "3", name: "Chicken",        price: 120, image: require("../../assets/images/chicken.png") },
-  { id: "4", name: "Red Velvet",     price: 600, image: require("../../assets/images/cake.png") },
+  // Appetizers / Starters
+  {
+    id: "app1",
+    name: "Lumpia Shanghai",
+    price: 80,
+    image: require("../../assets/images/appetizers/lumpia-shanghai.jpg"),
+    category: "Appetizers / Starters",
+  },
+  {
+    id: "app2",
+    name: "Mozarella Sticks",
+    price: 90,
+    image: require("../../assets/images/appetizers/mozarella-sticks.jpg"),
+    category: "Appetizers / Starters",
+  },
+
+  // Beverages
+  {
+    id: "bev1",
+    name: "Coke",
+    price: 35,
+    image: require("../../assets/images/beverages/coke.jpg"),
+    category: "Beverages",
+  },
+  {
+    id: "bev2",
+    name: "Cucumber Juice",
+    price: 45,
+    image: require("../../assets/images/beverages/cucumberjuice.jpg"),
+    category: "Beverages",
+  },
+  {
+    id: "bev3",
+    name: "Iced Tea",
+    price: 40,
+    image: require("../../assets/images/beverages/IcedTea.jpg"),
+    category: "Beverages",
+  },
+
+  // Desserts
+  {
+    id: "des1",
+    name: "Red Velvet",
+    price: 600,
+    image: require("../../assets/images/desserts/cake.png"),
+    category: "Desserts",
+  },
+  {
+    id: "des2",
+    name: "Tiramisu",
+    price: 120,
+    image: require("../../assets/images/desserts/tiramisu.jpg"),
+    category: "Desserts",
+  },
+
+  // Main Courses
+  {
+    id: "main1",
+    name: "Special Burger",
+    price: 50,
+    image: require("../../assets/images/main-courses/burger.png"),
+    category: "Main Courses",
+  },
+  {
+    id: "main2",
+    name: "Fried Chicken",
+    price: 99,
+    image: require("../../assets/images/main-courses/fried.png"),
+    category: "Main Courses",
+  },
+  {
+    id: "main3",
+    name: "Chicken",
+    price: 120,
+    image: require("../../assets/images/main-courses/chicken.png"),
+    category: "Main Courses",
+  },
+
+  // Pasta & Noodles
+  {
+    id: "pasta1",
+    name: "Carbonara",
+    price: 110,
+    image: require("../../assets/images/pasta&noodles/carbonara.jpg"),
+    category: "Pasta & Noodles",
+  },
+  {
+    id: "pasta2",
+    name: "Lasagna",
+    price: 110,
+    image: require("../../assets/images/pasta&noodles/lasagna.jpg"),
+    category: "Pasta & Noodles",
+  },
+  {
+    id: "pasta3",
+    name: "Pad Thai",
+    price: 150,
+    image: require("../../assets/images/pasta&noodles/padthai.jpg"),
+    category: "Pasta & Noodles",
+  },
+  // Seafood Dishes
+  {
+    id: "sea1",
+    name: "Grilled Salmon",
+    price: 200,
+    image: require("../../assets/images/seafood-dishes/grilled-salmon.jpg"),
+    category: "Seafood Dishes",
+  },
+  {
+    id: "sea2",
+    name: "Calamari Rings",
+    price: 180,
+    image: require("../../assets/images/seafood-dishes/calamari.jpg"),
+    category: "Seafood Dishes",
+  },
+  {
+    id: "sea3",
+    name: "Scallops",
+    price: 180,
+    image: require("../../assets/images/seafood-dishes/scallops.jpg"),
+    category: "Seafood Dishes",
+  },
+  // Soup & Salad
+  {
+    id: "soup1",
+    name: "Caesar Salad",
+    price: 90,
+    image: require("../../assets/images/soup&salad/caesarsalad.jpg"),
+    category: "Soups & Salads",
+  },
+  {
+    id: "soup2",
+    name: "Beef & Vegetable Soup",
+    price: 100,
+    image: require("../../assets/images/soup&salad/beef&vegetable-soup.jpg"),
+    category: "Soups & Salads",
+  },
+  {
+    id: "soup3",
+    name: "Chicken Noodle Soup",
+    price: 70,
+    image: require("../../assets/images/soup&salad/chicken-noodle-soup.jpg"),
+    category: "Soups & Salads",
+  },
 ];
 
 export default function MenuScreen() {
   const [q, setQ] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [cartVisible, setCartVisible] = useState(false);
   const [receipt, setReceipt] = useState<null | {
     code: string;
@@ -23,7 +165,13 @@ export default function MenuScreen() {
   }>(null);
   const { items, add, remove, totalPrice, totalQty, clear } = useCart();
 
-  const filtered = DATA.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
+  const categories = ["All", "Appetizers / Starters", "Soups & Salads", "Main Courses", "Seafood Dishes", "Pasta & Noodles", "Vegetarian Dishes", "Desserts", "Beverages"];
+
+  const filtered = DATA.filter(
+    p =>
+      p.name.toLowerCase().includes(q.toLowerCase()) &&
+      (selectedCategory === "All" || p.category === selectedCategory)
+  );
 
   const handleAdd = (item: typeof DATA[0]) => add(item);
 
@@ -83,6 +231,20 @@ export default function MenuScreen() {
         onChangeText={setQ}
         style={s.search}
       />
+
+      {/* Category Dropdown */}
+      <View style={{ marginBottom: 8, borderRadius: 10, overflow: "hidden", backgroundColor: "#F5F7FF", paddingHorizontal: 8, paddingVertical: 4, }}>
+        <Picker
+          selectedValue={selectedCategory}
+          onValueChange={setSelectedCategory}
+          style={{ height: 52, marginTop: -8, }}
+          dropdownIconColor="#D20A62"
+        >
+          {categories.map(cat => (
+            <Picker.Item key={cat} label={cat} value={cat} />
+          ))}
+        </Picker>
+      </View>
 
       <FlatList
         data={filtered}
@@ -168,9 +330,21 @@ export default function MenuScreen() {
 
 const s = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: "#fff" },
-  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 },
-  headerTitle: { fontSize: 24, fontWeight: "bold", color: "#D20A62" },
-  cartBtn: { padding: 4 },
+  header: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    marginBottom: 12, 
+    marginTop: 24
+  },
+  headerTitle: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    color: "#D20A62" 
+  },
+  cartBtn: { 
+    padding: 4 
+  },
   cartBadge: {
     position: "absolute",
     top: -4,
@@ -183,14 +357,47 @@ const s = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 2,
   },
-  cartBadgeText: { color: "white", fontSize: 10, fontWeight: "bold" },
-  search: { backgroundColor: "#F5F7FF", padding: 14, borderRadius: 10, marginBottom: 8 },
-  modalContainer: { flex: 1, backgroundColor: "#fff", padding: 20 },
-  modalHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 16 },
-  modalTitle: { fontSize: 22, fontWeight: "bold", color: "#D20A62" },
-  cartRow: { flexDirection: "row", alignItems: "center", marginBottom: 12 },
-  checkoutBtn: { backgroundColor: "#D20A62", padding: 16, borderRadius: 10, marginTop: 16 },
-  checkoutBtnText: { color: "#fff", textAlign: "center", fontWeight: "bold" },
+  cartBadgeText: { 
+    color: "white", 
+    fontSize: 10, 
+    fontWeight: "bold" },
+  search: { 
+    backgroundColor: "#F5F7FF", 
+    padding: 14, 
+    borderRadius: 10, 
+    marginBottom: 8 },
+  modalContainer: { 
+    flex: 1, 
+    backgroundColor: "#fff", 
+    padding: 20 
+  },
+  modalHeader: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    marginBottom: 16 
+  },
+  modalTitle: { 
+    fontSize: 22, 
+    fontWeight: "bold", 
+    color: "#D20A62" 
+  },
+  cartRow: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    marginBottom: 12 
+  },
+  checkoutBtn: { 
+    backgroundColor: "#D20A62", 
+    padding: 16, 
+    borderRadius: 10, 
+    marginTop: 16 
+  },
+  checkoutBtnText: { 
+    color: "#fff", 
+    textAlign: "center", 
+    fontWeight: "bold" 
+  },
   receiptOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.25)",
