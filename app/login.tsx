@@ -3,23 +3,35 @@ import { Link, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Animated, Easing, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
+AsyncStorage.removeItem("hasLoaded");
+
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // default: false
   const router = useRouter();
 
   // Animation for loading bar
   const loadingAnim = useRef(new Animated.Value(0)).current;
 
+  // Only show loading screen once per app run
   useEffect(() => {
-    // Animate loading bar
-    Animated.timing(loadingAnim, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start(() => setLoading(false));
+    const checkFirstLoad = async () => {
+      const loaded = await AsyncStorage.getItem("hasLoaded");
+      if (!loaded) {
+        setLoading(true);
+        Animated.timing(loadingAnim, {
+          toValue: 1,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: false,
+        }).start(async () => {
+          setLoading(false);
+          await AsyncStorage.setItem("hasLoaded", "true");
+        });
+      }
+    };
+    checkFirstLoad();
   }, [loadingAnim]);
 
   const handleLogin = async () => {
@@ -47,30 +59,16 @@ export default function LoginScreen() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <View style={{ alignItems: "center" }}>
-          <View style={{ position: "relative", marginBottom: 24, width: 220, height: 180, justifyContent: "center", alignItems: "center" }}>
+        <View style={styles.loadingCenter}>
+          <View style={styles.loadingLogoContainer}>
             <Image
               source={require("../assets/images/yummify.png")}
-              style={{
-                width: 320,
-                height: 200,
-                alignSelf: "center",
-                zIndex: 1,
-                position: "absolute",
-                top: 70,
-              }}
+              style={styles.loadingYummify}
               resizeMode="contain"
             />
             <Image
               source={require("../assets/images/hand-logo.png")}
-              style={{
-                width: 250,
-                height: 250,
-                alignSelf: "center",
-                zIndex: 2,
-                position: "absolute",
-                top: -70,
-              }}
+              style={styles.loadingHand}
               resizeMode="contain"
             />
           </View>
@@ -100,7 +98,7 @@ export default function LoginScreen() {
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
       <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => router.replace("/forgot-password")}>
         <Text style={styles.forgot}>Forgot your password?</Text>
       </TouchableOpacity>
 
@@ -121,6 +119,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#D70F64",
     justifyContent: "center",
     alignItems: "center",
+  },
+  loadingCenter: {
+    alignItems: "center",
+  },
+  loadingLogoContainer: {
+    position: "relative",
+    marginBottom: 24,
+    width: 220,
+    height: 180,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingYummify: {
+    width: 320,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1,
+    position: "absolute",
+    top: 70,
+  },
+  loadingHand: {
+    width: 250,
+    height: 250,
+    alignSelf: "center",
+    zIndex: 2,
+    position: "absolute",
+    top: -70,
   },
   loadingBarBg: {
     width: 200,
