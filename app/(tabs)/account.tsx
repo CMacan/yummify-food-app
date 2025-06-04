@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function AccountScreen() {
   const [email, setEmail] = useState("");
@@ -9,6 +9,7 @@ export default function AccountScreen() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -69,11 +70,7 @@ export default function AccountScreen() {
   };
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem("user");
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "login" }],
-    });
+    navigation.navigate("login");
   };
 
   return (
@@ -119,10 +116,42 @@ export default function AccountScreen() {
 
       <TouchableOpacity
         style={[styles.button, { backgroundColor: "#aaa", marginTop: 32 }]}
-        onPress={handleLogout}
+        onPress={() => setLogoutModalVisible(true)}
       >
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        visible={logoutModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setLogoutModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 12 }}>Confirm Logout</Text>
+            <Text style={{ marginBottom: 24 }}>Are you sure you want to logout?</Text>
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: "#aaa", marginRight: 10, minWidth: 80 }]}
+                onPress={() => setLogoutModalVisible(false)}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: "#D20A62", minWidth: 80 }]}
+                onPress={() => {
+                  setLogoutModalVisible(false);
+                  handleLogout();
+                }}
+              >
+                <Text style={styles.buttonText}>Logout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -162,5 +191,18 @@ const styles = StyleSheet.create({
   buttonText: { 
     color: "white", 
     fontWeight: "bold" 
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.25)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBox: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 24,
+    width: 300,
+    elevation: 5,
   },
 });
