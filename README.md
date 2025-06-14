@@ -3,13 +3,13 @@
 <h2>Screenshots of the System</h2>
 
 <div align="center">
-  <img src="/snapshots/1.jpg" width="250" />
-  <img src="/snapshots/2.jpg" width="250" />
-  <img src="/snapshots/3.jpg" width="250" />
-  <img src="/snapshots/4.jpg" width="250" />
-  <img src="/snapshots/5.jpg" width="250" />
-  <img src="/snapshots/6.jpg" width="250" />
-  <img src="/snapshots/7.jpg" width="250" />
+  <img src="/snapshots/1.jpg" width="200" height="400" />
+  <img src="/snapshots/2.jpg" width="250" height="400" />
+  <img src="/snapshots/3.jpg" width="250" height="400" />
+  <img src="/snapshots/4.jpg" width="250" height="400" />
+  <img src="/snapshots/5.jpg" width="250" height="400" />
+  <img src="/snapshots/6.jpg" width="250" height="400" />
+  <img src="/snapshots/7.jpg" width="250" height="400" />
   <img src="/snapshots/8.jpg" width="250" />
   <img src="/snapshots/9.jpg" width="250" />
 </div>
