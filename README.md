@@ -1,22 +1,18 @@
 **Screenshots of the System**
 
-![Snapshot1](/snapshots/1.jpg)
+<h2>Screenshots of the System</h2>
 
-![Snapshot2](/snapshots/2.jpg)
-
-![Snapshot3](/snapshots/3.jpg)
-
-![Snapshot4](/snapshots/4.jpg)
-
-![Snapshot5](/snapshots/5.jpg)
-
-![Snapshot6](/snapshots/6.jpg)
-
-![Snapshot7](/snapshots/7.jpg)
-
-![Snapshot8](/snapshots/8.jpg)
-
-![Snapshot9](/snapshots/9.jpg)
+<div align="center">
+  <img src="/snapshots/1.jpg" width="250" />
+  <img src="/snapshots/2.jpg" width="250" />
+  <img src="/snapshots/3.jpg" width="250" />
+  <img src="/snapshots/4.jpg" width="250" />
+  <img src="/snapshots/5.jpg" width="250" />
+  <img src="/snapshots/6.jpg" width="250" />
+  <img src="/snapshots/7.jpg" width="250" />
+  <img src="/snapshots/8.jpg" width="250" />
+  <img src="/snapshots/9.jpg" width="250" />
+</div>
 
 
 # Welcome to your Expo app 👋
