@@ -1,3 +1,24 @@
+**Screenshots of the System**
+
+![Snapshot1](/snapshots/1.png)
+
+![Snapshot2](/snapshots/2.png)
+
+![Snapshot3](/snapshots/3.png)
+
+![Snapshot4](/snapshots/4.png)
+
+![Snapshot5](/snapshots/5.png)
+
+![Snapshot6](/snapshots/6.png)
+
+![Snapshot7](/snapshots/7.png)
+
+![Snapshot8](/snapshots/8.png)
+
+![Snapshot9](/snapshots/9.png)
+
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
