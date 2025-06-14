@@ -1,22 +1,22 @@
 **Screenshots of the System**
 
-![Snapshot1](/snapshots/1.png)
+![Snapshot1](/snapshots/1.jpg)
 
-![Snapshot2](/snapshots/2.png)
+![Snapshot2](/snapshots/2.jpg)
 
-![Snapshot3](/snapshots/3.png)
+![Snapshot3](/snapshots/3.jpg)
 
-![Snapshot4](/snapshots/4.png)
+![Snapshot4](/snapshots/4.jpg)
 
-![Snapshot5](/snapshots/5.png)
+![Snapshot5](/snapshots/5.jpg)
 
-![Snapshot6](/snapshots/6.png)
+![Snapshot6](/snapshots/6.jpg)
 
-![Snapshot7](/snapshots/7.png)
+![Snapshot7](/snapshots/7.jpg)
 
-![Snapshot8](/snapshots/8.png)
+![Snapshot8](/snapshots/8.jpg)
 
-![Snapshot9](/snapshots/9.png)
+![Snapshot9](/snapshots/9.jpg)
 
 
 # Welcome to your Expo app 👋
