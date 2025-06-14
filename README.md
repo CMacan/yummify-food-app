@@ -12,6 +12,9 @@
   <img src="/snapshots/7.jpg" width="250" height="400" />
   <img src="/snapshots/8.jpg" width="250" height="400" />
   <img src="/snapshots/9.jpg" width="250" height="400" />
+  <img src="/snapshots/10.jpg" width="250" height="400" />
+  <img src="/snapshots/11.jpg" width="250" height="400" />
+  <img src="/snapshots/12.jpg" width="250" height="400" />
 </div>
 
 
