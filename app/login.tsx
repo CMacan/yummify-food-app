@@ -1,9 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Alert, Animated, Easing, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, Easing, Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-AsyncStorage.removeItem("hasLoaded");
+if (Platform.OS !== "web" || typeof window !== "undefined") {
+  // Only clear once storage is accessible on the current runtime
+  AsyncStorage.removeItem("hasLoaded").catch(() => undefined);
+}
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
